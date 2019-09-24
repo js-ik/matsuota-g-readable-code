@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Training {
@@ -22,10 +24,12 @@ public class Training {
         }
 
         // 単語情報読み込み
-        String dictionaryData = readDictionaryData(args[0]);
+        List<String> dictionaryWords = readDictionaryData(args[0]);
 
         // 単語情報出力
-        System.out.println(dictionaryData);
+        for (String dictionaryWord: dictionaryWords) {
+            System.out.println(dictionaryWord);
+        }
     }
 
     // 引数チェック
@@ -56,15 +60,15 @@ public class Training {
         return true;
     }
 
-    // 指定されたファイルパスのファイルを読み込み、内容の文字列を返却する
-    // ファイルの読み込みに失敗した場合は空の文字列を返却する
-    private static String readDictionaryData(String dictionaryDataFilePath) {
+    // 指定されたファイルパスのファイルを読み込み、1行1要素としてListで返却する
+    // ファイルの読み込みに失敗した場合は空のリストを返却する
+    private static List<String> readDictionaryData(String dictionaryDataFilePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(dictionaryDataFilePath,
                 StandardCharsets.UTF_8))) {
-            return reader.lines().collect(Collectors.joining("\n"));
+            return reader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             System.out.println("ファイルの読み込みに失敗しました:" + dictionaryDataFilePath);
         }
-        return "";
+        return Collections.emptyList();
     }
 }
