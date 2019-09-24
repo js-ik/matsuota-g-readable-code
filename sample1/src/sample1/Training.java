@@ -1,5 +1,7 @@
 package sample1;
 
+import java.io.File;
+
 public class Training {
 
 	public static void main(String[] args) {
@@ -9,7 +11,10 @@ public class Training {
 			return;
 		}
 		
-		// 入力ファイル存在チェック
+		// 単語情報ファイル存在チェック
+		if (!existDictionaryDataFile(args[0])) {
+			return;
+		}
 		
 		// 単語情報読み込み
 		
@@ -31,6 +36,21 @@ public class Training {
 		return true;
 	}
 	
+	// 単語情報ファイル存在チェック
+	// 単語情報ファイルが存在しない場合、チェックエラーとする
+	private static boolean existDictionaryDataFile(String dictionaryDataFilePath) {
+
+		// ファイル情報取得
+		File dictionaryDataFile = new File(dictionaryDataFilePath);
+		
+		// 単語情報ファイルが存在するか確認する
+		if (!dictionaryDataFile.exists()) {
+			System.out.println("単語情報ファイルが存在しません");
+			System.out.println("指定ファイル：" + dictionaryDataFilePath);
+			return false;
+		}
+		return true;
+	}
 	
 	
 }
