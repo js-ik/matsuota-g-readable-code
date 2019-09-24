@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,11 +25,14 @@ public class Training {
         }
 
         // 単語情報読み込み
-        List<String> dictionaryWords = readDictionaryData(args[0]);
+        List<String> words = readDictionaryData(args[0]);
+
+        // 読み込んだ単語情報にIDを付与する
+        List<DictionaryWord> dictionaryWords = identifyDictionaryData(words);
 
         // 単語情報出力
-        for (String dictionaryWord: dictionaryWords) {
-            System.out.println(dictionaryWord);
+        for (DictionaryWord dictionaryWord: dictionaryWords) {
+            System.out.println(dictionaryWord.getId() + ": " + dictionaryWord.getWord());
         }
     }
 
@@ -70,5 +74,17 @@ public class Training {
             System.out.println("ファイルの読み込みに失敗しました:" + dictionaryDataFilePath);
         }
         return Collections.emptyList();
+    }
+
+    // 辞書単語に対してユニークなIDを付与する。
+    // IDは1始まりで、指定されたリスト内の辞書単語に対し先頭からIDの値を大きくしていく
+    private static List<DictionaryWord> identifyDictionaryData(List<String> dictionaryWords) {
+        List<DictionaryWord> identifiedWords = new ArrayList<>();
+        int wordId = 1;
+        for (String dictionaryWord: dictionaryWords) {
+            identifiedWords.add(new DictionaryWord(wordId, dictionaryWord));
+            wordId++;
+        }
+        return identifiedWords;
     }
 }
