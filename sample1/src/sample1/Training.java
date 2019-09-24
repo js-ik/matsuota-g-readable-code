@@ -4,7 +4,7 @@ public class Training {
 
 	public static void main(String[] args) {
 		
-		System.out.println("ãè");
+		System.out.println("ä¸Šæ‰‹");
 
 	}
 
